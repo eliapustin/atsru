@@ -1,18 +1,18 @@
 // Общие HTML-компоненты страниц. Зависят от data.js.
 
 const btn = (label, form = 'f1', cls = 'btn-primary') =>
-  /* HTML */ `<button class="btn ${cls}" data-form="${form}" data-cta="${label}">
-    ${label}
-  </button>`;
+  /* HTML */ `<button class="btn ${cls}" data-form="${form}" data-cta="${label}">${label}</button>`;
 const link = (label, path, cls = 'btn-outline') =>
   /* HTML */ `<a class="btn ${cls}" href="#/${path}">${label} <span>→</span></a>`;
 const visual = (p) =>
-  /* HTML */ `<span class="placeholder-icon" aria-hidden="true">${p.icon}</span>${p.image
+  /* HTML */ `<span class="placeholder-icon" aria-hidden="true" ${p.image ? 'hidden' : ''}
+      >${p.icon}</span
+    >${p.image
       ? /* HTML */ `<img
           src="${p.image}"
           alt="${p.name}"
           loading="lazy"
-          onerror="this.style.display='none'"
+          onerror="this.style.display='none'; this.previousElementSibling.hidden=false"
         />`
       : ''}`;
 function productCard(p, i) {

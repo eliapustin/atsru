@@ -526,6 +526,11 @@ p {
   font-size: 70px;
   color: rgba(12, 83, 133, 0.45);
 }
+/* Не показываем запасную иконку одновременно с фотографией. */
+.product-visual .placeholder-icon[hidden],
+.inner-visual .placeholder-icon[hidden] {
+  display: none;
+}
 .product-body {
   padding: 22px;
   flex: 1;

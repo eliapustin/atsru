@@ -23,9 +23,6 @@ function home() {
               учреждений
             </div>
           </div>
-          <div class="orbit">
-            <span>РАЗРАБОТКА<br />И ПРОИЗВОДСТВО</span>
-          </div>
         </div>
       </div>
     </section>
