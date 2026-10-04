@@ -1,0 +1,247 @@
+{
+  "format": "ats-groups-database",
+  "version": 2,
+  "exportedAt": "2026-09-16T05:30:27.226Z",
+  "groups": [
+    {
+      "institution_name": "Лицей №12",
+      "class_name": "Класс 5А",
+      "teachers": [
+        "Федоров Игорь Дмитриевич"
+      ],
+      "students": [
+        {
+          "full_name": "Иванов А.А.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.1.1",
+              "lesson_title": "Мир дронов: история, виды и правила безопасности",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 3,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:00:50.471Z",
+              "comment": null,
+              "teacher_name": "Федоров Игорь Дмитриевич"
+            },
+            {
+              "lesson_type": "practical",
+              "lesson_ref": null,
+              "lesson_title": "Управление креном",
+              "task_id": "task_001",
+              "attempt_number": 1,
+              "score": 2,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": 4.562899999976159,
+              "completed_at": "2026-09-09T13:01:43.129Z",
+              "comment": "Выполнено за 4.563 с",
+              "teacher_name": null
+            }
+          ]
+        },
+        {
+          "full_name": "Петров А.А.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.1.1",
+              "lesson_title": "Мир дронов: история, виды и правила безопасности",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 3,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:00:54.114Z",
+              "comment": null,
+              "teacher_name": "Федоров Игорь Дмитриевич"
+            }
+          ]
+        },
+        {
+          "full_name": "Сидоров А.А.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.1.1",
+              "lesson_title": "Мир дронов: история, виды и правила безопасности",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 3,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:00:56.649Z",
+              "comment": null,
+              "teacher_name": "Федоров Игорь Дмитриевич"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "institution_name": "Школа №38",
+      "class_name": "Класс 7Б",
+      "teachers": [
+        "Михалков Дмитрий Васильевич"
+      ],
+      "students": [
+        {
+          "full_name": "Иванов Б.Б.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.2.2",
+              "lesson_title": "Скелет дрона: из чего делают раму и почему это важно",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 4,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:01:09.361Z",
+              "comment": null,
+              "teacher_name": "Михалков Дмитрий Васильевич"
+            }
+          ]
+        },
+        {
+          "full_name": "Петров Б.Б.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.2.2",
+              "lesson_title": "Скелет дрона: из чего делают раму и почему это важно",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 4,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:01:11.520Z",
+              "comment": null,
+              "teacher_name": "Михалков Дмитрий Васильевич"
+            },
+            {
+              "lesson_type": "practical",
+              "lesson_ref": null,
+              "lesson_title": "Управление тангажом",
+              "task_id": "task_002",
+              "attempt_number": 1,
+              "score": 2,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": 5.532299999952317,
+              "completed_at": "2026-09-09T13:02:08.877Z",
+              "comment": "Выполнено за 5.532 с",
+              "teacher_name": null
+            }
+          ]
+        },
+        {
+          "full_name": "Сидоров Б.Б.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.2.2",
+              "lesson_title": "Скелет дрона: из чего делают раму и почему это важно",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 4,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:01:13.645Z",
+              "comment": null,
+              "teacher_name": "Михалков Дмитрий Васильевич"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "institution_name": "Школа №38",
+      "class_name": "Класс 7В",
+      "teachers": [
+        "Лаврентьева Татьяна Андреевна"
+      ],
+      "students": [
+        {
+          "full_name": "Иванов В.В.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.3.3",
+              "lesson_title": "Сердце дрона: как работают моторы и что такое тяга",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 5,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:01:21.671Z",
+              "comment": null,
+              "teacher_name": "Лаврентьева Татьяна Андреевна"
+            }
+          ]
+        },
+        {
+          "full_name": "Петров В.В.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.3.3",
+              "lesson_title": "Сердце дрона: как работают моторы и что такое тяга",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 5,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:01:23.218Z",
+              "comment": null,
+              "teacher_name": "Лаврентьева Татьяна Андреевна"
+            }
+          ]
+        },
+        {
+          "full_name": "Сидоров В.В.",
+          "grades": [
+            {
+              "lesson_type": "theoretical",
+              "lesson_ref": "1.3.3",
+              "lesson_title": "Сердце дрона: как работают моторы и что такое тяга",
+              "task_id": null,
+              "attempt_number": 1,
+              "score": 5,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": null,
+              "completed_at": "2026-09-09T13:01:24.426Z",
+              "comment": null,
+              "teacher_name": "Лаврентьева Татьяна Андреевна"
+            },
+            {
+              "lesson_type": "practical",
+              "lesson_ref": null,
+              "lesson_title": "Управление рысканием",
+              "task_id": "task_003",
+              "attempt_number": 1,
+              "score": 2,
+              "max_score": 5,
+              "passed": true,
+              "duration_seconds": 6.235899999976158,
+              "completed_at": "2026-09-09T13:02:34.726Z",
+              "comment": "Выполнено за 6.236 с",
+              "teacher_name": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

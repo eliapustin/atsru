@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1. Мир дронов: история, виды и правила безопасности</title>
+    <link rel="icon" type="image/png" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106653116', 'ym');
+
+    ym(106653116, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106653116" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->    
+
+<style>
+        /* Дополнительные стили для учебных страниц */
+        .content-section {
+            padding: 60px 0;
+        }
+        
+        .text-container {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+        
+        .text-container h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .text-container p {
+            text-align: left;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .image-container {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+        }
+        
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--deep-blue), var(--dark-blue));
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        /* Навигация для учебных страниц */
+        .sub-header {
+            background-color: var(--deep-blue);
+            color: var(--text-light);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .sub-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Основное меню - видимо только на десктопе */
+        .sub-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            margin: 0 40px;
+        }
+        
+        .sub-nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .sub-nav a:hover {
+            color: var(--accent-blue);
+            background-color: rgba(0, 170, 255, 0.1);
+        }
+        
+        .sub-nav .btn-small {
+            padding: 8px 20px;
+            background-color: var(--accent-blue);
+            color: var(--deep-blue);
+            font-weight: 700;
+            border-radius: 5px;
+        }
+        
+        .sub-nav .btn-small:hover {
+            background-color: var(--gradient-blue);
+        }
+        
+        /* Гамбургер-меню - скрыто на десктопе */
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px;
+            background-color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        
+        /* Мобильное меню - скрыто по умолчанию */
+        .nav-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--deep-blue);
+            flex-direction: column;
+        }
+        
+        .nav-menu.active {
+            display: flex;
+        }
+        
+        .nav-list {
+            list-style: none;
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .nav-list li {
+            margin: 0;
+            text-align: center;
+        }
+        
+        .nav-list a {
+            display: block;
+            padding: 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-bottom: 1px solid var(--dark-blue);
+        }
+        
+        .nav-list a:hover {
+            color: var(--accent-blue);
+        }
+        
+        /* Стили для ссылок в тексте */
+        .text-container a {
+            color: var(--accent-blue);
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+        
+        .text-container a:hover {
+            color: var(--gradient-blue);
+        }
+        
+        /* Адаптивность для учебных страниц */
+        @media (max-width: 768px) {
+            .sub-header-content {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .sub-nav {
+                display: none; /* Скрываем десктопное меню на мобильных */
+            }
+            
+            .hamburger-menu {
+                display: block; /* Показываем гамбургер на мобильных */
+                margin-left: auto;
+            }
+            
+            .hamburger-menu.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            .hamburger-menu.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger-menu.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .text-container,
+            .image-container {
+                padding: 0 15px;
+            }
+            
+            .content-section {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка для учебных страниц -->
+    <header class="sub-header">
+        <div class="sub-header-content">
+            <!-- Логотип -->
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="ООО «АвиаТехноСофт»" class="logo-image">
+            </a>
+            
+            <!-- Меню навигации (видно только на десктопе) -->
+            <nav class="sub-nav">
+                <a href="index.html">Главная</a>
+                <a href="index.html">← Назад</a>
+                <a href="education2.html">Вперед →</a>
+            </nav>
+            
+            <!-- Гамбургер-меню (видно только на мобильных) -->
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        
+        <!-- Мобильное меню (скрыто по умолчанию) -->
+        <nav class="nav-menu">
+            <ul class="nav-list">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="index.html">← Назад</a></li>
+                <li><a href="education2.html">Вперед →</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+        <!-- Секция 1: Текст -->
+        <section class="content-section">
+            <div class="text-container">
+                <h2>Мир дронов: история, виды и правила безопасности</h2>
+                <p>
+                    Привет! Сегодня мы начинаем путешествие в удивительный мир беспилотников, или, как их чаще называют, дронов. Это не просто крутые игрушки, а настоящие летательные аппараты, которые меняют наш мир!
+                </p>
+  <h3>Как всё начиналось? Немного истории</h3>
+                <p>
+                    Ты удивишься, но первые попытки создать что-то похожее на дрон предприняли еще в 1849 году! Австрийцы придумали запускать воздушные шары с бомбами на врага. Управлять ими было нельзя, они просто летели по ветру. Сложно назвать это дроном, но идея уже витала в воздухе!<br><br>
+Потом, в 1940-е годы, появились первые самолеты-мишени. Их использовали для тренировки летчиков и зенитчиков. Интересный факт: английское слово «Drone» (что значит «трутень») пошло от названия одного такого самолета-мишени — «Queen Bee» («Пчелиная матка»).<br><br>
+А настоящий прорыв случился в 2000-х годах. Появились маленькие и мощные <a href="education3.html" target="_blank" title="моторы" class="custom-link">моторчики</a>, <a href="education9.html" target="_blank" title="вспомогательное оборудование" class="custom-link">камеры, датчики и GPS</a>. Дроны стали умными, доступными и превратились из военной техники в наших повседневных помощников.
+                </p>
+<h3>Какими они бывают? Не только квадрокоптеры!</h3>
+<p> Когда ты слышишь слово «дрон», ты наверняка представляешь себе квадрокоптер с четырьмя <a href="education4.html" target="_blank" title="пропеллеры" class="custom-link">пропеллерами</a>. Но на самом деле их гораздо больше!<br><br>
+&#10004; <b>«Летающие пауки» (Мультикоптеры)</b>. Это как раз те самые аппараты с несколькими винтами (4, 6, 8). Они умеют зависать на месте, плавно двигаться во всех направлениях — идеально для съемки видео.<br>
+&#10004; <b>«Самолетики» (Самолетного типа)</b>. Выглядят как маленькие самолеты с одним крылом. Они не умеют зависать, зато летают очень далеко и долго. Их используют для картографии или наблюдения за большими территориями.<br>
+&#10004; <b>«Гибриды» (VTOL)</b>. Совмещают лучшее: могут взлетать и садиться вертикально, как вертолет, а потом лететь быстро и далеко, как самолет. Техника будущего!
+                </p>
+<p> Их используют везде: для съемки крутых роликов, доставки пиццы и лекарств, осмотра мостов и труб, в сельском хозяйстве и даже в гонках — есть специальный вид спорта «дрон-рейсинг», где пилоты в шлемах с VR-очками носятся на бешеной скорости по трассе.
+                </p>
+           </div>
+        </section>
+
+        <!-- Секция 2: Картинка -->
+        <section class="content-section alt-bg">
+            <div class="image-container">
+                <!-- Замените src на путь к вашему изображению -->
+                <img src="images/edu1.jpg" alt="Мир дронов: история, виды и правила безопасности">
+                <!-- Или используйте placeholder: -->
+                <!-- <div class="image-placeholder">
+                </div> -->
+            </div>
+        </section>
+
+        <!-- Секция 3: Текст -->
+        <section class="content-section">
+            <div class="text-container">
+                <h2>Главное правило: Безопасность — на первом месте!</h2>
+                <p>
+                    Запомни раз и навсегда: дрон — это не игрушка. Это техническое устройство, которое может быть опасным, если не соблюдать правила.
+                </p>
+<h3>Осторожно, опасно!</h3>
+                <p>
+                    &#10004; <a href="education4.html" target="_blank" title="пропеллеры" class="custom-link"><b>Пропеллеры.</b></a> Вращающиеся лопасти — это острый и очень быстрый нож. <b>Никогда не подходи к включенному дрону!</b> Даже маленький пропеллер может нанести серьезную травму.<br>
+ &#10004; <a href="education8.html" target="_blank" title="АКБ" class="custom-link"><b>Аккумуляторы.</b></a> В дронах стоят особые батареи (LiPo). Их нельзя бить, протыкать, перезаряжать или оставлять на солнце. Они могут загореться или даже взорваться! Обращайся с ними как с хрупким стеклом.<br>
+&#10004; <b>Место для полетов.</b> Нельзя запускать дрон где попало! Запрещено летать возле аэропортов, над толпой людей, рядом с линией электропередач и в городах. Лучше всего — на открытых полях или на специальных площадках.<br>
+                </p>
+<h3>Перед каждым полетом нужно делать предполетную проверку (Pre-flight check):</h3>
+1.	Осмотреть дрон: нет ли трещин, все ли винты закручены.<br>
+2.	Проверить, хорошо ли закреплены пропеллеры.<br>
+3.	Убедиться, что аккумулятор полностью заряжен.<br>
+4.	Выбрать безопасное место для полетов.<br>
+<br>
+<h3>Краткая памятка от бывалого пилота:</h3>
+•	Дроны — это круто и очень интересно.<br>
+•	Летать можно только там, где это безопасно для всех.<br>
+•	Пропеллеры и батареи требуют уважительного обращения.<br>
+•	Лучший пилот — тот, кто летает не просто круто, но и безопасно.<br><br>
+<h3>Удачи на занятиях! Скоро ты сам сможешь управлять этими удивительными машинами</h3>
+            </div>
+        </section>
+
+        <!-- Секция 4: Картинка -->
+        <section class="content-section alt-bg">
+            
+        </section>
+
+        <!-- Секция 5: Текст -->
+        <section class="content-section">
+            <div class="text-container">
+                <h2>Навигация по образовательному курсу</h2>
+                <p>
+                   <a href="education1.html" target="_blank" title="Урок 1" class="custom-link">Урок 1. Мир дронов: история, виды и правила безопасности</a><br>
+                   <a href="education2.html" target="_blank" title="Урок 2" class="custom-link">Урок 2. Рама. Варианты исполнения.</a><br>
+                   <a href="education3.html" target="_blank" title="Урок 3" class="custom-link">Урок 3. Моторы, электродвигатели.</a><br>
+                   <a href="education4.html" target="_blank" title="Урок 4" class="custom-link">Урок 4. Пропеллеры.</a><br>
+                   <a href="education5.html" target="_blank" title="Урок 5" class="custom-link">Урок 5. Регулятор оборотов.</a><br>
+                   <a href="education6.html" target="_blank" title="Урок 6" class="custom-link">Урок 6. Контроллер полета (автопилот).</a><br>
+                   <a href="education7.html" target="_blank" title="Урок 7" class="custom-link">Урок 7. Приемник-передатчик (ПДУ).</a><br>
+                   <a href="education8.html" target="_blank" title="Урок 8" class="custom-link">Урок 8. Аккумуляторная батарея (АКБ). Виды и маркировка.</a><br>
+                   <a href="education9.html" target="_blank" title="Урок 9" class="custom-link">Урок 9. Вспомогательное оборудование.</a><br>  
+                 </p>
+                <p>
+                    Для перехода к следующему учебному материалу 
+                    используйте кнопку «Вперед» в верхней навигации.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 ООО «АвиаТехноСофт»</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
