@@ -102,22 +102,23 @@ img {
   gap: 11px;
   flex: none;
 }
+/* Логотип сохраняет исходные пропорции PNG (1605 × 749). */
 .brand-mark {
-  width: 39px;
-  height: 39px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 3px;
-  transform: rotate(-18deg);
+  display: block;
+  width: 144px;
+  flex: none;
 }
-.brand-mark i {
-  background: var(--blue);
-  border-radius: 3px 9px 3px 9px;
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
-.brand-mark i:nth-child(2),
-.brand-mark i:nth-child(3) {
-  background: var(--sky);
+/* Светлая подложка сохраняет читаемость чёрной надписи в подвале. */
+.brand-footer .brand-mark {
+  width: 168px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  /* background: var(--white); */
 }
 .brand-name {
   font-size: 16px;
@@ -1110,6 +1111,9 @@ p {
 }
 /* Адаптация: планшеты и небольшие экраны */
 @media (max-width: 1100px) {
+  .site-header .brand-mark {
+    width: 128px;
+  }
   .main-nav {
     gap: 14px;
     font-size: 11px;
@@ -1138,6 +1142,9 @@ p {
   }
 }
 @media (max-width: 800px) {
+  .site-header .brand-mark {
+    width: 112px;
+  }
   .container {
     width: min(100% - 32px, 680px);
   }
