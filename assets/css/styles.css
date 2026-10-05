@@ -118,7 +118,7 @@ img {
   width: 168px;
   padding: 8px 12px;
   border-radius: 8px;
-  /* background: var(--white); */
+  background: var(--white);
 }
 .brand-name {
   font-size: 16px;
@@ -178,11 +178,15 @@ img {
   border-radius: 0 0 18px 18px;
   z-index: 60;
 }
-.nav-group:hover .mega-menu,
-.nav-group:hover .small-menu,
 .nav-group.open .mega-menu,
 .nav-group.open .small-menu {
   display: grid;
+}
+@media (min-width: 801px) and (hover: hover) {
+  .nav-group:hover .mega-menu,
+  .nav-group:hover .small-menu {
+    display: grid;
+  }
 }
 .mega-menu {
   grid-template-columns: repeat(2, 220px);
@@ -388,13 +392,13 @@ p {
 .hero-visual {
   height: 560px;
   position: relative;
-  align-self: end;
+  align-self: center;
 }
 .photo-panel {
   position: absolute;
-  inset: 26px -70px 0 0;
+  inset: 0;
   overflow: hidden;
-  border-radius: 34px 0 0 0;
+  border-radius: 34px;
   background: linear-gradient(140deg, #356b93, #0e2e4f);
 }
 .photo-panel:before {
@@ -1214,8 +1218,7 @@ p {
     height: 330px;
   }
   .photo-panel {
-    inset: 0 -16px 0 0;
-    border-radius: 25px 0 0 0;
+    border-radius: 25px;
   }
   .orbit {
     width: 105px;
