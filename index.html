@@ -51,7 +51,7 @@
               ><a href="#/procurement">Как закупить</a>
             </div>
           </div>
-          <a href="#/documents">Документы</a><a href="#/about">О компании</a
+          <a href="#/documents">Документы</a><a href="http://astru-news.local/">Новости</a><a href="#/about">О компании</a
           ><a href="#/contacts">Контакты</a>
         </nav>
         <button class="btn btn-primary header-cta" data-form="f1" data-cta="Получить КП">
@@ -88,7 +88,7 @@
         <div>
           <b>Информация</b><a href="#/education">Для образования</a
           ><a href="#/procurement">Как закупить</a><a href="#/documents">Документы</a
-          ><a href="#/about">О компании</a><a href="#/contacts">Контакты</a>
+          ><a href="http://astru-news.local/">Новости</a><a href="#/about">О компании</a><a href="#/contacts">Контакты</a>
         </div>
         <div>
           <b>Связаться</b><a href="tel:+79874997497">+7 (987) 499-74-97</a
@@ -109,7 +109,7 @@
         <div class="eyebrow">СВЯЗАТЬСЯ С НАМИ</div>
         <h2 id="modal-title">Получить КП</h2>
         <p id="modal-intro">Расскажите о задаче — подготовим предложение.</p>
-        <form id="lead-form">
+        <form id="lead-form" action="api/lead.php" method="post">
           <div class="form-grid">
             <label
               >Имя <em>*</em
@@ -133,15 +133,16 @@
               rows="3"
               placeholder="Расскажите о задаче"
             ></textarea></label
+          ><div class="form-honeypot" aria-hidden="true"><label>Сайт<input name="website" tabindex="-1" autocomplete="off" /></label></div
           ><label class="consent"
-            ><input type="checkbox" required /><span
+            ><input type="checkbox" name="consent" value="1" required /><span
               >Согласен на обработку персональных данных для ответа на запрос.
               <span class="muted">Текст политики будет добавлен после согласования.</span></span
             ></label
-          ><button class="btn btn-primary submit-btn" type="submit">Продолжить по email</button>
+          ><button class="btn btn-primary submit-btn" type="submit">Отправить заявку</button>
+          <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
           <p class="form-note">
-            Демонстрационный макет: заявка откроется в вашей почтовой программе. Серверная отправка
-            будет подключена при разработке сайта.
+            После отправки заявки мы свяжемся с вами по указанному контакту.
           </p>
         </form>
       </div>

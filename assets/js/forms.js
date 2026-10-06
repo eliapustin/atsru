@@ -1,11 +1,13 @@
-// Модальное окно и подготовка заявки в почтовой программе.
+// Модальное окно и отправка заявки на сервер.
 
 const backdrop = document.querySelector('#form-modal'),
   modalTitle = document.querySelector('#modal-title'),
   modalIntro = document.querySelector('#modal-intro'),
   form = document.querySelector('#lead-form');
 let formContext = {};
+let formRequestId = 0;
 function openForm(el) {
+  formRequestId += 1;
   const type = el.dataset.form;
   const product = products.find((p) => location.hash.endsWith('/' + p.id));
   formContext = {
@@ -74,6 +76,12 @@ function openForm(el) {
     type === 'f4' ? 'Email ' : 'Телефон или email ';
   backdrop.hidden = false;
   document.body.classList.add('modal-open');
+  const status = document.querySelector('#form-status');
+  status.hidden = true;
+  status.textContent = '';
+  const submit = form.querySelector('.submit-btn');
+  submit.disabled = false;
+  submit.textContent = 'Отправить заявку';
   form.querySelector('input[name=name]').focus();
 }
 function closeForm() {
@@ -92,29 +100,43 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !backdrop.hidden) closeForm();
 });
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!form.reportValidity()) return;
-  const d = new FormData(form);
-  const subject = `Запрос с макета сайта: ${formTitles[formContext.type][0]}`;
-  const body = [
-    `Форма: ${formTitles[formContext.type][0]}`,
-    `Кнопка: ${formContext.cta}`,
-    `Страница: ${location.href}`,
-    `Продукт: ${d.get('product') || formContext.product || '—'}`,
-    `Имя: ${d.get('name')}`,
-    `Контакт: ${d.get('contact')}`,
-    `Организация: ${d.get('company')}`,
-    `Регион: ${d.get('region') || '—'}`,
-    `Тип учреждения: ${d.get('institution') || '—'}`,
-    `Число учащихся: ${d.get('students') || '—'}`,
-    `Срок и бюджет: ${d.get('project') || '—'}`,
-    `Демонстрация: ${d.get('demo') || '—'}`,
-    `Документ: ${d.get('document') || '—'}`,
-    `КП для обоснования цены: ${d.get('pricing') ? 'Да' : 'Нет'}`,
-    `Комментарий: ${d.get('message') || '—'}`,
-    `Источник: ${document.referrer || '—'}`,
-  ].join('\n');
-  location.href = `mailto:aviatechnosoft@yandex.ru?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  closeForm();
+  const data = new FormData(form);
+  data.set('type', formContext.type);
+  data.set('cta', formContext.cta);
+  data.set('page', location.href);
+  if (!data.get('product')) data.set('product', formContext.product);
+  const submit = form.querySelector('.submit-btn');
+  const status = document.querySelector('#form-status');
+  const requestId = ++formRequestId;
+  submit.disabled = true;
+  submit.textContent = 'Отправляем…';
+  status.hidden = false;
+  status.classList.remove('is-error');
+  status.textContent = 'Отправляем заявку…';
+
+  try {
+    const response = await fetch('api/lead.php', {
+      method: 'POST',
+      body: data,
+      headers: { Accept: 'application/json' },
+    });
+    const result = await response.json().catch(() => ({}));
+    if (requestId !== formRequestId) return;
+    if (!response.ok) throw new Error(result.message || 'Не удалось отправить заявку.');
+    form.reset();
+    status.textContent = result.message || 'Спасибо! Заявка отправлена.';
+    submit.textContent = 'Отправлено';
+  } catch (error) {
+    if (requestId !== formRequestId) return;
+    status.textContent =
+      error instanceof Error && error.message !== 'Failed to fetch'
+        ? error.message
+        : 'Ошибка связи. Попробуйте ещё раз.';
+    status.classList.add('is-error');
+    submit.textContent = 'Повторить отправку';
+    submit.disabled = false;
+  }
 });

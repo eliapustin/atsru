@@ -219,6 +219,16 @@ function home() {
         ${link('Перейти к документам', 'documents')}
       </div>
     </div>
+    <section class="section section-soft">
+      <div class="container section-head">
+        <div>
+          <div class="eyebrow">НОВОСТИ КОМПАНИИ</div>
+          <h2>События и разработки</h2>
+          <p>Публикации о проектах, мероприятиях и новых материалах компании.</p>
+        </div>
+        <a class="text-link" href="http://astru-news.local/">Все новости →</a>
+      </div>
+    </section>
     ${finalCta()}`;
 }
 function productPage(p) {
