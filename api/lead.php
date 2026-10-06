@@ -127,7 +127,7 @@ $privateConfig = is_file($privateConfigPath) ? require $privateConfigPath : [];
 if (!is_array($privateConfig)) {
     $privateConfig = [];
 }
-$recipient = trim((string) (getenv('ATS_LEAD_TO') ?: ($privateConfig['to'] ?? 'aviatechnosoft@yandex.ru')));
+$recipient = trim((string) (getenv('ATS_LEAD_TO') ?: ($privateConfig['to'] ?? 'liap1990@gmail.com')));
 $localHost = $host === 'localhost' || str_ends_with($host, '.local');
 $sender = trim((string) (getenv('ATS_LEAD_FROM') ?: ($privateConfig['from'] ?? ($localHost ? 'noreply@atsru.local' : ''))));
 if (filter_var($recipient, FILTER_VALIDATE_EMAIL) === false || filter_var($sender, FILTER_VALIDATE_EMAIL) === false) {
