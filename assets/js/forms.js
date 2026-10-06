@@ -6,6 +6,44 @@ const backdrop = document.querySelector('#form-modal'),
   form = document.querySelector('#lead-form');
 let formContext = {};
 let formRequestId = 0;
+const formFieldNames = {
+  name: 'Имя',
+  contact: 'Телефон или email',
+  company: 'Организация',
+  region: 'Регион',
+  institution: 'Тип учреждения',
+  students: 'Число учащихся',
+  project: 'Срок запуска и бюджет',
+  demo: 'Формат демонстрации',
+  document: 'Запрашиваемый документ',
+  pricing: 'КП для обоснования цены',
+  consent: 'Согласие на обработку данных',
+  message: 'Комментарий',
+};
+
+function clearFormErrors() {
+  form.querySelectorAll('.form-field-invalid').forEach((field) => {
+    field.classList.remove('form-field-invalid');
+    field.removeAttribute('aria-invalid');
+  });
+}
+
+function showFormError(message, fieldName, retry = true) {
+  const status = document.querySelector('#form-status');
+  status.hidden = false;
+  status.classList.add('is-error');
+  status.textContent = message;
+  const field = fieldName && form.elements.namedItem(fieldName);
+  if (field instanceof HTMLElement) {
+    field.classList.add('form-field-invalid');
+    field.setAttribute('aria-invalid', 'true');
+    field.focus();
+  }
+  const submit = form.querySelector('.submit-btn');
+  submit.textContent = retry ? 'Повторить отправку' : 'Отправить заявку';
+  submit.disabled = false;
+}
+
 function openForm(el) {
   formRequestId += 1;
   const type = el.dataset.form;
@@ -19,6 +57,7 @@ function openForm(el) {
   modalTitle.textContent = formTitles[type][0];
   modalIntro.textContent = formTitles[type][1];
   form.reset();
+  clearFormErrors();
   const fields = document.querySelector('#context-fields');
   const options = products
     .map(
@@ -66,7 +105,7 @@ function openForm(el) {
                   ${options}
                 </select></label
               ><label class="consent"
-                ><input type="checkbox" name="pricing" /><span
+                ><input type="checkbox" name="pricing" value="1" /><span
                   >КП нужно для обоснования цены контракта</span
                 ></label
               >`;
@@ -100,9 +139,40 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !backdrop.hidden) closeForm();
 });
 
+form.addEventListener('invalid', (e) => {
+  const field = e.target;
+  if (!(field instanceof HTMLElement)) return;
+  field.classList.add('form-field-invalid');
+  field.setAttribute('aria-invalid', 'true');
+  const status = document.querySelector('#form-status');
+  if (status.hidden) {
+    const label = formFieldNames[field.getAttribute('name')] || 'в форме';
+    const message = field.validity?.valueMissing
+      ? `Заполните поле «${label}».`
+      : `Проверьте значение поля «${label}».`;
+    showFormError(message, field.getAttribute('name'), false);
+  }
+}, true);
+
+function clearEditedField(e) {
+  const field = e.target;
+  if (!(field instanceof HTMLElement)) return;
+  field.classList.remove('form-field-invalid');
+  field.removeAttribute('aria-invalid');
+  const status = document.querySelector('#form-status');
+  if (status.classList.contains('is-error')) {
+    status.hidden = true;
+    status.textContent = '';
+    status.classList.remove('is-error');
+  }
+}
+form.addEventListener('input', clearEditedField);
+form.addEventListener('change', clearEditedField);
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!form.reportValidity()) return;
+  clearFormErrors();
   const data = new FormData(form);
   data.set('type', formContext.type);
   data.set('cta', formContext.cta);
@@ -125,18 +195,15 @@ form.addEventListener('submit', async (e) => {
     });
     const result = await response.json().catch(() => ({}));
     if (requestId !== formRequestId) return;
-    if (!response.ok) throw new Error(result.message || 'Не удалось отправить заявку.');
+    if (!response.ok) {
+      showFormError(result.message || 'Не удалось отправить заявку.', result.field);
+      return;
+    }
     form.reset();
     status.textContent = result.message || 'Спасибо! Заявка отправлена.';
     submit.textContent = 'Отправлено';
-  } catch (error) {
+  } catch {
     if (requestId !== formRequestId) return;
-    status.textContent =
-      error instanceof Error && error.message !== 'Failed to fetch'
-        ? error.message
-        : 'Ошибка связи. Попробуйте ещё раз.';
-    status.classList.add('is-error');
-    submit.textContent = 'Повторить отправку';
-    submit.disabled = false;
+    showFormError('Ошибка связи. Попробуйте ещё раз.');
   }
 });

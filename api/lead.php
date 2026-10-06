@@ -6,22 +6,41 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
-function reply(int $status, string $message): void
+function reply(int $status, string $message, ?string $invalidField = null): void
 {
     http_response_code($status);
-    echo json_encode(['message' => $message], JSON_UNESCAPED_UNICODE);
+    $response = ['message' => $message];
+    if ($invalidField !== null) {
+        $response['field'] = $invalidField;
+    }
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 function field(string $name, int $maxBytes): string
 {
+    $labels = [
+        'name' => 'имя',
+        'contact' => 'контакт',
+        'company' => 'организация',
+        'region' => 'регион',
+        'institution' => 'тип учреждения',
+        'students' => 'число учащихся',
+        'project' => 'срок и бюджет',
+        'demo' => 'формат демонстрации',
+        'document' => 'документ',
+        'pricing' => 'КП для обоснования цены',
+        'message' => 'комментарий',
+        'product' => 'продукт',
+    ];
+    $label = $labels[$name] ?? 'данные формы';
     $value = $_POST[$name] ?? '';
     if (!is_string($value)) {
-        reply(422, 'Проверьте заполненные поля.');
+        reply(422, 'Проверьте поле «' . $label . '».', $name);
     }
     $value = trim(str_replace(["\r\n", "\r"], "\n", $value));
     if (strlen($value) > $maxBytes || preg_match('//u', $value) !== 1) {
-        reply(422, 'Проверьте заполненные поля.');
+        reply(422, 'Поле «' . $label . '» заполнено некорректно или слишком длинное.', $name);
     }
     return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', ' ', $value);
 }
@@ -53,8 +72,11 @@ $types = [
     'f4' => ['label' => 'Получить документацию', 'subject' => 'documents'],
 ];
 $type = field('type', 2);
-if (!isset($types[$type]) || field('consent', 1) !== '1') {
-    reply(422, 'Проверьте заполненные поля и согласие на обработку данных.');
+if (!isset($types[$type])) {
+    reply(422, 'Неизвестный тип заявки. Обновите страницу и попробуйте снова.');
+}
+if (field('consent', 1) !== '1') {
+    reply(422, 'Подтвердите согласие на обработку персональных данных.', 'consent');
 }
 
 $data = [
@@ -70,27 +92,36 @@ $data = [
     'project' => field('project', 600),
     'demo' => field('demo', 40),
     'document' => field('document', 300),
-    'pricing' => field('pricing', 1),
+    'pricing' => field('pricing', 3),
     'message' => field('message', 4000),
 ];
 
-if ($data['name'] === '' || $data['contact'] === '' || $data['company'] === '') {
-    reply(422, 'Заполните имя, контакт и организацию.');
+if ($data['name'] === '') {
+    reply(422, 'Укажите имя.', 'name');
+}
+if ($data['contact'] === '') {
+    reply(422, 'Укажите телефон или email.', 'contact');
+}
+if ($data['company'] === '') {
+    reply(422, 'Укажите организацию.', 'company');
 }
 if ($type === 'f2' && $data['institution'] === '') {
-    reply(422, 'Укажите тип учреждения.');
+    reply(422, 'Укажите тип учреждения.', 'institution');
 }
 if ($data['students'] !== '' && (!ctype_digit($data['students']) || (int) $data['students'] < 1 || (int) $data['students'] > 10000)) {
-    reply(422, 'Проверьте число учащихся.');
+    reply(422, 'Число учащихся должно быть от 1 до 10 000.', 'students');
 }
 if ($type === 'f3' && !in_array($data['demo'], ['Онлайн', 'Очно', 'Обсудить'], true)) {
-    reply(422, 'Выберите формат демонстрации.');
+    reply(422, 'Выберите формат демонстрации.', 'demo');
 }
-if ($type === 'f4' && ($data['document'] === '' || filter_var($data['contact'], FILTER_VALIDATE_EMAIL) === false)) {
-    reply(422, 'Укажите документ и корректный email.');
+if ($type === 'f4' && $data['document'] === '') {
+    reply(422, 'Укажите запрашиваемый документ.', 'document');
 }
-if (!in_array($data['pricing'], ['', '1'], true)) {
-    reply(422, 'Проверьте заполненные поля.');
+if ($type === 'f4' && filter_var($data['contact'], FILTER_VALIDATE_EMAIL) === false) {
+    reply(422, 'Укажите корректный email.', 'contact');
+}
+if (!in_array($data['pricing'], ['', '1', 'on'], true)) {
+    reply(422, 'Проверьте поле «КП для обоснования цены».', 'pricing');
 }
 
 // A small file-based limit is sufficient for the expected traffic and needs no database.
@@ -152,7 +183,7 @@ $body = implode("\r\n", [
     'Срок и бюджет: ' . $value('project'),
     'Демонстрация: ' . $value('demo'),
     'Документ: ' . $value('document'),
-    'КП для обоснования цены: ' . ($data['pricing'] === '1' ? 'Да' : 'Нет'),
+    'КП для обоснования цены: ' . (in_array($data['pricing'], ['1', 'on'], true) ? 'Да' : 'Нет'),
     'Комментарий: ' . $value('message'),
 ]);
 $headers = [

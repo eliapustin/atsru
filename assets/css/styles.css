@@ -1380,6 +1380,16 @@ p {
 .modal .form-status.is-error {
   color: #a32626;
 }
+.modal input.form-field-invalid:not([type='checkbox']),
+.modal textarea.form-field-invalid,
+.modal select.form-field-invalid {
+  border-color: #c32d2d;
+  box-shadow: 0 0 0 3px #fde8e8;
+}
+.modal input.form-field-invalid[type='checkbox'] {
+  outline: 2px solid #c32d2d;
+  outline-offset: 2px;
+}
 .submit-btn:disabled {
   cursor: wait;
   opacity: 0.7;
