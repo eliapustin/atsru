@@ -19,6 +19,7 @@ wordpress/ats-news/           Тема WordPress только для разде�
 wordpress/ats-news-theme.zip  Архив темы для установки через панель WordPress
 wordpress/ats-static-site.zip Архив статической части для нового сайта
 docs/wordpress-news-setup.md  Порядок тестового развёртывания новостей
+docs/production-deployment.md Порядок переноса на хостинг
 docs/forms-local-testing.md   Проверка заявок в LocalWP и на хостинге
 for_agent/site_plan.md        План этапов и открытые вопросы
 for_agent/site_worklog.md     Решения и результаты проверок
