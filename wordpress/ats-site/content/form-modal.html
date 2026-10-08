@@ -1,0 +1,44 @@
+<div class="modal-backdrop" id="form-modal" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" aria-label="Закрыть форму">×</button>
+        <div class="eyebrow">СВЯЗАТЬСЯ С НАМИ</div>
+        <h2 id="modal-title">Получить КП</h2>
+        <p id="modal-intro">Расскажите о задаче — подготовим предложение.</p>
+        <form id="lead-form" action="api/lead.php" method="post">
+          <div class="form-grid">
+            <label
+              >Имя <em>*</em
+              ><input
+                name="name"
+                autocomplete="name"
+                required
+                placeholder="Как к вам обращаться" /></label
+            ><label id="contact-label"
+              >Телефон или email <em>*</em
+              ><input name="contact" required placeholder="Для ответа на запрос" /></label
+            ><label
+              >Организация <em>*</em
+              ><input name="company" required placeholder="Название учреждения" /></label
+            ><label>Регион<input name="region" placeholder="Ваш регион" /></label>
+          </div>
+          <div id="context-fields"></div>
+          <label
+            >Комментарий<textarea
+              name="message"
+              rows="3"
+              placeholder="Расскажите о задаче"
+            ></textarea></label
+          ><div class="form-honeypot" aria-hidden="true"><label>Сайт<input name="website" tabindex="-1" autocomplete="off" /></label></div
+          ><label class="consent"
+            ><input type="checkbox" name="consent" value="1" required /><span
+              >Согласен на обработку персональных данных для ответа на запрос.
+              <span class="muted">Текст политики будет добавлен после согласования.</span></span
+            ></label
+          ><button class="btn btn-primary submit-btn" type="submit">Отправить заявку</button>
+          <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
+          <p class="form-note">
+            После отправки заявки мы свяжемся с вами по указанному контакту.
+          </p>
+        </form>
+      </div>
+    </div>

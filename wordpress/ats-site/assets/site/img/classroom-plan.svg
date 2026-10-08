@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+ <defs><pattern id="grid" width="35" height="35" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#80b9db" stroke-opacity=".15"/></pattern><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#20577e"/><stop offset="1" stop-color="#0d2b4b"/></linearGradient></defs>
+ <rect width="900" height="700" fill="url(#bg)"/><rect width="900" height="700" fill="url(#grid)"/>
+ <g transform="translate(100 90) rotate(-7 350 250)" fill="none" stroke="#8ed8f8" stroke-width="2" opacity=".86">
+  <rect x="15" y="15" width="670" height="485" rx="10" stroke-width="4"/>
+  <path d="M15 138H685M15 370H685M475 138V370" stroke-dasharray="8 6" opacity=".55"/>
+  <rect x="75" y="55" width="245" height="48" rx="5" fill="#3a80a8" fill-opacity=".25"/><text x="197" y="85" text-anchor="middle" font-family="Arial" font-size="15" fill="#c4edff" stroke="none">ЗОНА ТЕОРИИ</text>
+  <g fill="#28648d" fill-opacity=".55"><rect x="70" y="190" width="95" height="62" rx="5"/><rect x="205" y="190" width="95" height="62" rx="5"/><rect x="340" y="190" width="95" height="62" rx="5"/><rect x="70" y="280" width="95" height="62" rx="5"/><rect x="205" y="280" width="95" height="62" rx="5"/><rect x="340" y="280" width="95" height="62" rx="5"/></g>
+  <g stroke-width="1.5"><rect x="87" y="203" width="61" height="30" rx="3"/><rect x="222" y="203" width="61" height="30" rx="3"/><rect x="357" y="203" width="61" height="30" rx="3"/><rect x="87" y="293" width="61" height="30" rx="3"/><rect x="222" y="293" width="61" height="30" rx="3"/><rect x="357" y="293" width="61" height="30" rx="3"/></g>
+  <rect x="510" y="175" width="130" height="130" rx="8" fill="#3a80a8" fill-opacity=".25"/><circle cx="575" cy="240" r="30"/><path d="M545 240h60m-30-30v60"/>
+  <text x="575" y="332" text-anchor="middle" font-family="Arial" font-size="13" fill="#c4edff" stroke="none">ПИЛОТИРОВАНИЕ</text>
+  <rect x="65" y="410" width="185" height="45" rx="4"/><text x="157" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#c4edff" stroke="none">СБОРКА</text><rect x="280" y="410" width="185" height="45" rx="4"/><text x="372" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#c4edff" stroke="none">ЛАБОРАТОРИЯ</text><rect x="495" y="410" width="145" height="45" rx="4"/><text x="567" y="438" text-anchor="middle" font-family="Arial" font-size="13" fill="#c4edff" stroke="none">ХРАНЕНИЕ</text>
+ </g><circle cx="777" cy="108" r="48" fill="none" stroke="#8ed8f8" opacity=".65"/><path d="M777 80v56m-28-28h56" stroke="#8ed8f8" opacity=".65"/><text x="777" y="169" fill="#a7d9ee" text-anchor="middle" font-family="Arial" font-size="12" letter-spacing="2">ПЛАН КЛАССА</text>
+</svg>
