@@ -55,3 +55,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Hosting snapshots can contain wp-config.php and other credentials
+current/
