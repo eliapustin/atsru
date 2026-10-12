@@ -58,3 +58,6 @@ $RECYCLE.BIN/
 
 # Hosting snapshots can contain wp-config.php and other credentials
 current/
+
+# Private mail settings for the contact forms
+atsru-lead-config.php
