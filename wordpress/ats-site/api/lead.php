@@ -195,7 +195,9 @@ if (filter_var($data['contact'], FILTER_VALIDATE_EMAIL) !== false) {
     $headers['Reply-To'] = $data['contact'];
 }
 
-if (!@mail($recipient, 'ATS website request: ' . $types[$type]['subject'], $body, $headers)) {
+// The envelope sender (-f) must match From: otherwise the hosting's system user is used,
+// SPF/DMARC fail for the site domain and Gmail silently rejects the message.
+if (!@mail($recipient, 'ATS website request: ' . $types[$type]['subject'], $body, $headers, '-f' . $sender)) {
     error_log('ATS lead mail() returned false.');
     reply(503, 'Не удалось отправить заявку. Попробуйте позже.');
 }

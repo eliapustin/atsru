@@ -29,7 +29,6 @@ assets/js/components.js       Общие блоки страниц
 assets/js/pages.js            Шаблоны главной и внутренних страниц
 assets/js/forms.js, script.js Формы и маршруты статической версии
 assets/css/, img/, video/     Исходные стили и медиа
-api/lead.php                  Обработчик заявок прежней статической версии
 
 wordpress/ats-news/, *.zip    Тема и архивы прежней схемы /news/ (история)
 docs/reference/               ТЗ и ответы заказчика
