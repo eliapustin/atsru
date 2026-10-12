@@ -4,6 +4,7 @@
 
 ## Документация
 
+- [docs/developer-guide.md](docs/developer-guide.md) — руководство программиста: структура сайта и какие файлы править для каждого изменения.
 - [docs/wordpress-full-site.md](docs/wordpress-full-site.md) — устройство темы, локальная проверка, публикация на хостинге, файлы поисковых систем.
 - [docs/forms-local-testing.md](docs/forms-local-testing.md) — формы и почта: где лежат настройки, DNS (SPF/DKIM/DMARC), проверка доставки.
 - [docs/lead-config.example.php](docs/lead-config.example.php) — образец приватного `atsru-lead-config.php`.
@@ -32,7 +33,6 @@ assets/css/, img/, video/     Исходные стили и медиа
 
 wordpress/ats-news/, *.zip    Тема и архивы прежней схемы /news/ (история)
 docs/reference/               ТЗ и ответы заказчика
-ats.ru.rar                    Архив старого сайта
 ```
 
 На хостинг загружается **только тема** (`wp-content/themes/ats-site/`) и приватный `atsru-lead-config.php` уровнем выше корня сайта. Корневые `index.html`, `assets/`, `api/` репозитория на хостинг не копируются.

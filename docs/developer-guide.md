@@ -1,0 +1,166 @@
+# Руководство программиста
+
+Как устроен сайт ООО «АвиаТехноСофт» и какие файлы править, чтобы изменить его. Публикация на хостинге и настройка почты описаны отдельно: [wordpress-full-site.md](wordpress-full-site.md), [forms-local-testing.md](forms-local-testing.md).
+
+## Как устроен сайт
+
+Сайт — одна установка WordPress в корне домена с собственной темой `ats-site`. Важная особенность: **тексты страниц не хранятся в базе WordPress и не редактируются в админке**. Они лежат в теме как готовые HTML-фрагменты, которые генерируются скриптом из JavaScript-исходников прежней статической версии сайта.
+
+```text
+assets/js/data.js, components.js, pages.js ─┐
+index.html (блок #form-modal) ──────────────┤
+                                            ▼
+                         node wordpress/build-site-pages.js
+                                            ▼
+                         wordpress/ats-site/content/*.html
+                                            ▼
+                         python wordpress/package-theme.py
+                                            ▼
+                         wordpress/ats-site-theme.zip ─► хостинг
+```
+
+Через админку WordPress редактируются только **новости** (раздел «Записи»).
+
+### Что где лежит
+
+| Путь | Назначение |
+| --- | --- |
+| `assets/js/data.js` | Каталог продуктов (`products`), заголовки форм (`formTitles`), темы курса (`courseTopics`), описания продуктов (`productDetails`) |
+| `assets/js/components.js` | Общие блоки: кнопки, карточки продуктов, финальный призыв к действию, блок описания продукта, обзор курса |
+| `assets/js/pages.js` | Функции страниц: `home()`, `productPage(p)`, `education()`, `procurement()`, `documents()`, `about()`, `contacts()`, `equipment()` |
+| `index.html` | Исходник окна формы (блок `#form-modal`); остальное — каркас прежней статической версии |
+| `assets/css/styles.css`, `assets/img/`, `assets/video/` | Исходные стили и медиа |
+| `wordpress/build-site-pages.js` | Генерирует `content/*.html` |
+| `wordpress/package-theme.py` | Собирает `ats-site-theme.zip` и проверяет его состав |
+| `wordpress/ats-site/` | Тема — то, что работает на хостинге |
+
+Внутри темы:
+
+| Файл | Назначение |
+| --- | --- |
+| `header.php` | Верхняя строка, логотип, главное меню, кнопка «Получить КП» |
+| `footer.php` | Подвал (ссылки, телефон, почта) и вывод окна формы |
+| `functions.php` | Подключение CSS/JS, вывод фрагментов, создание страниц при активации темы, редирект старых адресов `#/…` |
+| `front-page.php`, `page.php` | Вывод фрагментов из `content/` |
+| `home.php`, `single.php` | Список новостей и страница новости |
+| `404.php` | Страница «не найдено» |
+| `style.css` | Заголовок темы (версия) и стили новостей |
+| `content/*.html` | **Сгенерированные** фрагменты страниц — вручную не править |
+| `api/lead.php` | Обработчик заявок |
+| `assets/menu.js` | Мобильное и выпадающее меню |
+| `assets/site/` | Стили, скрипты форм, изображения, видео |
+
+### Как страница находит своё содержимое
+
+WordPress-страница определяет фрагмент по своему адресу (slug), см. `ats_site_page_name()` в `functions.php` и `page.php`:
+
+| Адрес | Фрагмент |
+| --- | --- |
+| `/` | `content/front.html` |
+| `/education/`, `/procurement/`, `/documents/`, `/about/`, `/contacts/`, `/equipment/` | `content/<slug>.html` |
+| `/product/` | `content/equipment.html` |
+| `/product/<id>/` | `content/product-<id>.html` |
+| `/news/` | список записей (`home.php`) |
+
+Если фрагмента для страницы нет, выводится обычное содержимое страницы из админки.
+
+Страницы создаются автоматически при активации темы (`ats_site_install_pages()`): там же назначаются главная страница и страница записей. Уже существующие страницы не перезаписываются.
+
+При генерации ссылки вида `#/about` превращаются в `{{ATS_HOME}}about/`, а пути `assets/…` — в `{{ATS_ASSET}}…`. Тема подставляет вместо этих меток реальные адреса сайта, поэтому фрагменты работают на любом домене.
+
+## Что править, чтобы изменить сайт
+
+После изменений, помеченных «**сборка**», выполните:
+
+```sh
+node wordpress/build-site-pages.js
+python wordpress/package-theme.py
+```
+
+и обновите тему на хостинге (или скопируйте папку `wordpress/ats-site` в локальный WordPress).
+
+| Что изменить | Где | Сборка |
+| --- | --- | --- |
+| Текст или блоки главной | `assets/js/pages.js`, функция `home()` | да |
+| Текст внутренней страницы | `assets/js/pages.js`, функция страницы | да |
+| Название, описание, картинку, пункты продукта | `assets/js/data.js`, `products` | да, плюс см. ниже про меню и `data.js` |
+| Подробное описание продукта | `assets/js/data.js`, `productDetails` | да |
+| Общий блок (карточка, кнопка, финальный блок) | `assets/js/components.js` | да |
+| Темы открытого курса | `assets/js/data.js`, `courseTopics` | да |
+| Главное меню, верхняя строка, почта в шапке | `wordpress/ats-site/header.php` | нет |
+| Подвал, телефон, почта, ссылки подвала | `wordpress/ats-site/footer.php` | нет |
+| Поля окна формы (общие) | `index.html`, блок `#form-modal` | да |
+| Поля, зависящие от типа формы | `assets/js/forms.js` и `wordpress/ats-site/assets/site/js/forms.js`, функция `openForm()` | нет |
+| Заголовок и подзаголовок окна формы | `assets/js/data.js`, `formTitles` | копирование `data.js` |
+| Проверка полей и текст письма | `wordpress/ats-site/api/lead.php` | нет |
+| Адреса получателя и отправителя заявок | не в коде: `atsru-lead-config.php` на хостинге или переменные `ATS_LEAD_TO` / `ATS_LEAD_FROM` | нет |
+| Стили и цвета | `assets/css/styles.css` (цвета — переменные в начале файла) | копирование |
+| Стили новостей | `wordpress/ats-site/style.css` | нет |
+| Вёрстка списка/страницы новости | `wordpress/ats-site/home.php`, `single.php` | нет |
+| Изображения и видео | `assets/img/`, `assets/video/` | копирование |
+| Новости | админка WordPress → «Записи» | нет |
+
+«**Копирование**» означает, что файл нужно вручную перенести в тему (см. следующий раздел), а затем пересобрать архив.
+
+### Файлы, которые существуют в двух копиях
+
+Генератор берёт исходники только для HTML-фрагментов. Стили, скрипты и медиа тема использует из своей папки `assets/site/`, поэтому их приходится синхронизировать вручную:
+
+| Исходник | Копия в теме | Как синхронизировать |
+| --- | --- | --- |
+| `assets/css/styles.css` | `wordpress/ats-site/assets/site/css/styles.css` | скопировать файл |
+| `assets/js/data.js` | `wordpress/ats-site/assets/site/js/data.js` | скопировать файл |
+| `assets/img/*`, `assets/video/*` | `wordpress/ats-site/assets/site/img/`, `video/` | скопировать файлы |
+| `assets/js/forms.js` | `wordpress/ats-site/assets/site/js/forms.js` | **перенести правки вручную** |
+
+`forms.js` в теме отличается от исходника: страница и продукт определяются по `location.pathname`, а не по `location.hash`, а заявка отправляется на `form.action` вместо `api/lead.php`. Не копируйте исходник поверх — сломаются отправка формы и определение продукта.
+
+### Добавить или переименовать продукт
+
+Продукт упоминается в нескольких местах, их нужно менять вместе:
+
+1. `assets/js/data.js` — запись в `products` (поле `id` становится адресом `/product/<id>/`) и при необходимости в `productDetails`. Затем скопировать `data.js` в тему.
+2. `wordpress/ats-site/header.php` — массив продуктов в выпадающем меню.
+3. `wordpress/ats-site/footer.php` — ссылка в колонке «Продукты».
+4. `wordpress/ats-site/functions.php` — массив `$products` в `ats_site_install_pages()`, чтобы страница создавалась при активации темы. На уже работающем сайте дочернюю страницу «Продукты» с нужным адресом нужно создать в админке вручную.
+5. Изображение — в `assets/img/` и в `wordpress/ats-site/assets/site/img/`.
+6. Сборка.
+
+### Добавить новую страницу
+
+1. Написать функцию страницы в `assets/js/pages.js`.
+2. Добавить её в объект `pages` в `wordpress/build-site-pages.js` (ключ = имя фрагмента = slug страницы).
+3. Добавить slug и заголовок в `$pages` в `ats_site_install_pages()` и создать страницу в админке на работающем сайте.
+4. Добавить ссылку в `header.php` и/или `footer.php`.
+5. Если на старом сайте был адрес `#/<slug>`, добавить slug в регулярное выражение `ats_site_old_hash_redirect()`.
+6. Сборка.
+
+### Формы заявок
+
+Четыре типа заявок задаются атрибутом `data-form` у кнопки: `f1` — «Получить КП», `f2` — «Рассчитать класс», `f3` — «Запросить демонстрацию», `f4` — «Получить документацию». Атрибут `data-cta` задаёт текст, который попадёт в письмо как источник заявки.
+
+Чтобы изменить форму, обычно нужно согласованно править три места:
+
+- общие поля — `index.html` (`#form-modal`), затем сборка;
+- поля конкретного типа — `openForm()` в обоих `forms.js`;
+- серверную проверку и письмо — `wordpress/ats-site/api/lead.php` (массив `$types` и проверки по типу).
+
+Заявки отправляются через PHP `mail()` и не сохраняются в базе. SMTP-плагины WordPress на эту отправку не влияют. Настройка почты и DNS — в [forms-local-testing.md](forms-local-testing.md).
+
+## Проверка изменений
+
+Автоматических тестов нет. Форматирование исходников проверяется Prettier:
+
+```sh
+npx prettier --check index.html "assets/js/*.js" assets/css/styles.css
+```
+
+Перед публикацией проверьте в локальном WordPress (LocalWP, письма — в Mailpit): главную, страницу продукта, новости, мобильное меню и отправку всех четырёх типов заявок на ширине около 390 и 1440 пикселей.
+
+При обновлении темы поднимайте `Version` в `wordpress/ats-site/style.css`: по ней браузеры перезагружают стили и скрипты из кеша.
+
+## Что не трогать
+
+- `wordpress/ats-site/content/*.html` — перезаписываются при сборке.
+- `wordpress/ats-news/`, `ats-news-theme.zip`, `ats-static-site.zip`, `news-htaccess.example`, `docs/production-deployment.md`, `docs/wordpress-news-setup.md` — прежняя схема «статический сайт + WordPress в `/news/`», сохранены как история.
+- Корневые `index.html`, `assets/`, `api/` на хостинг не копируются: на хостинге работает только тема.
