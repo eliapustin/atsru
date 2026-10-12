@@ -66,10 +66,10 @@ if (field('website', 200) !== '') {
 }
 
 $types = [
-    'f1' => ['label' => 'Получить КП', 'subject' => 'proposal'],
-    'f2' => ['label' => 'Рассчитать класс', 'subject' => 'classroom'],
-    'f3' => ['label' => 'Запросить демонстрацию', 'subject' => 'demo'],
-    'f4' => ['label' => 'Получить документацию', 'subject' => 'documents'],
+    'f1' => ['label' => 'Получить КП'],
+    'f2' => ['label' => 'Рассчитать класс'],
+    'f3' => ['label' => 'Запросить демонстрацию'],
+    'f4' => ['label' => 'Получить документацию'],
 ];
 $type = field('type', 2);
 if (!isset($types[$type])) {
@@ -166,38 +166,68 @@ if (filter_var($recipient, FILTER_VALIDATE_EMAIL) === false || filter_var($sende
     reply(503, 'Отправка временно недоступна. Попробуйте позже.');
 }
 
-$value = static function (string $key) use ($data): string {
-    return $data[$key] === '' ? '—' : $data[$key];
-};
-$body = implode("\r\n", [
-    'Форма: ' . $types[$type]['label'],
-    'Кнопка: ' . $value('cta'),
-    'Страница: ' . $value('page'),
-    'Продукт: ' . $value('product'),
-    'Имя: ' . $value('name'),
-    'Контакт: ' . $value('contact'),
-    'Организация: ' . $value('company'),
-    'Регион: ' . $value('region'),
-    'Тип учреждения: ' . $value('institution'),
-    'Число учащихся: ' . $value('students'),
-    'Срок и бюджет: ' . $value('project'),
-    'Демонстрация: ' . $value('demo'),
-    'Документ: ' . $value('document'),
-    'КП для обоснования цены: ' . (in_array($data['pricing'], ['1', 'on'], true) ? 'Да' : 'Нет'),
-    'Комментарий: ' . $value('message'),
-]);
+$data['pricing'] = in_array($data['pricing'], ['1', 'on'], true) ? 'Да' : '';
+$canReply = filter_var($data['contact'], FILTER_VALIDATE_EMAIL) !== false;
+
+// Letter blocks: heading => [label => data key]. Empty fields and empty blocks are skipped.
+$blocks = [
+    'КЛИЕНТ' => [
+        'Имя' => 'name',
+        'Контакт' => 'contact',
+        'Организация' => 'company',
+        'Регион' => 'region',
+    ],
+    'ЗАПРОС' => [
+        'Продукт' => 'product',
+        'Тип учреждения' => 'institution',
+        'Число учащихся' => 'students',
+        'Срок и бюджет' => 'project',
+        'Формат демонстрации' => 'demo',
+        'Документ' => 'document',
+        'КП для обоснования цены' => 'pricing',
+        'Комментарий' => 'message',
+    ],
+    'ИСТОЧНИК' => [
+        'Кнопка' => 'cta',
+        'Страница' => 'page',
+    ],
+];
+$lines = ['Новая заявка: ' . $types[$type]['label']];
+foreach ($blocks as $heading => $fields) {
+    $rows = [];
+    foreach ($fields as $label => $key) {
+        if ($data[$key] !== '') {
+            $rows[] = $label . ': ' . $data[$key];
+        }
+    }
+    if ($rows !== []) {
+        array_push($lines, '', $heading, ...$rows);
+    }
+}
+if ($canReply) {
+    array_push($lines, '', 'Ответить клиенту можно кнопкой «Ответить».');
+}
+$body = str_replace("\n", "\r\n", implode("\n", $lines));
+
+// mail() does not encode headers: a Cyrillic subject must be sent as a MIME encoded word.
+$company = preg_replace('/\s+/u', ' ', $data['company']);
+if (preg_match('/^.{60}./us', $company) === 1) {
+    $company = preg_replace('/^(.{60}).*$/us', '$1…', $company);
+}
+$subject = '=?UTF-8?B?' . base64_encode('Заявка с сайта: ' . $types[$type]['label'] . ' — ' . $company) . '?=';
+
 $headers = [
     'From' => $sender,
     'MIME-Version' => '1.0',
     'Content-Type' => 'text/plain; charset=UTF-8',
 ];
-if (filter_var($data['contact'], FILTER_VALIDATE_EMAIL) !== false) {
+if ($canReply) {
     $headers['Reply-To'] = $data['contact'];
 }
 
 // The envelope sender (-f) must match From: otherwise the hosting's system user is used,
 // SPF/DMARC fail for the site domain and Gmail silently rejects the message.
-if (!@mail($recipient, 'ATS website request: ' . $types[$type]['subject'], $body, $headers, '-f' . $sender)) {
+if (!@mail($recipient, $subject, $body, $headers, '-f' . $sender)) {
     error_log('ATS lead mail() returned false.');
     reply(503, 'Не удалось отправить заявку. Попробуйте позже.');
 }
