@@ -76,6 +76,16 @@
 - Подтверждение действует для конкретного адреса: проверьте, что в сервисах добавлен именно основной адрес `https://aviatechnosoft.ru` (или домен целиком через DNS).
 - Карта сайта: WordPress создаёт `/wp-sitemap.xml`. Укажите её в обоих сервисах вместо старого `sitemap.xml`.
 - Старые физические страницы (`product.html`, `education1.html`, `news.html` и др.) из прежнего `sitemap.xml` перенаправьте на новые адреса правилами `Redirect 301` в `.htaccess` **выше** блока `# BEGIN WordPress`, если они есть в поиске или во внешних ссылках.
+- Старая главная `/index.html` перенаправляется на корень сайта, а не на `/index.php`: WordPress сам переводит `/index.php` на `/`, и лишний промежуточный адрес не нужен. Фрагмент старых ссылок (`/index.html#/product/pchelka`) браузер сохраняет при перенаправлении, дальше его обрабатывает скрипт темы.
+
+  ```apache
+  # Старые адреса прежнего сайта
+  RedirectMatch 301 ^/index\.html$ https://aviatechnosoft.ru/
+
+  # BEGIN WordPress
+  ```
+
+  Проверка: `curl -I https://aviatechnosoft.ru/index.html` → `301` и `Location: https://aviatechnosoft.ru/`. Если правило не срабатывает, в корне всё ещё лежит физический `index.html` из прежнего сайта или хостинг не разрешает `mod_alias`. Во втором случае используйте `RewriteEngine On` и `RewriteRule ^index\.html$ / [R=301,L]`.
 
 ### Проблема входа на хостинге (09.10.2026)
 

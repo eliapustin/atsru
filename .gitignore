@@ -61,3 +61,6 @@ current/
 
 # Private mail settings for the contact forms
 atsru-lead-config.php
+
+# Office lock files
+~$*

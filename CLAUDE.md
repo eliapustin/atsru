@@ -18,6 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 node wordpress/build-site-pages.js     # исходники assets/js + index.html → wordpress/ats-site/content/*.html
 python wordpress/package-theme.py      # собрать wordpress/ats-site-theme.zip (с проверками состава архива)
 npx prettier --check index.html "assets/js/*.js" assets/css/styles.css
+python docs/build-acceptance-checklist.py  # лист приёмки для заказчика → docs/site-acceptance-checklist.xlsx
 ```
 
 Тестов и линтера нет. Проверка — вручную в LocalWP (сайт `atsru.local`, письма через Mailpit): главная, продуктовая страница, новости, мобильное меню и четыре типа заявок на ширине ~390 и ~1440 px. Подробности — `docs/wordpress-full-site.md`, `docs/forms-local-testing.md`.
