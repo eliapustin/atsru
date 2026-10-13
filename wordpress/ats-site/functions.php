@@ -82,9 +82,45 @@ function ats_site_install_pages() {
         update_option('page_on_front', $ids['home']);
         update_option('page_for_posts', $ids['news']);
     }
+    ats_site_publish_legal_pages();
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'ats_site_install_pages');
+
+function ats_site_legal_pages() {
+    return array(
+        'privacy-policy' => 'Политика обработки персональных данных',
+        'personal-data-consent' => 'Согласие на обработку персональных данных',
+    );
+}
+
+/**
+ * Publish the legal pages. WordPress creates a draft "privacy-policy" page on install,
+ * so an existing page is published and renamed instead of creating "privacy-policy-2".
+ */
+function ats_site_publish_legal_pages() {
+    foreach (ats_site_legal_pages() as $slug => $title) {
+        $page = get_page_by_path($slug);
+        $id = $page ? $page->ID : wp_insert_post(array(
+            'post_type' => 'page', 'post_status' => 'publish',
+            'post_title' => $title, 'post_name' => $slug,
+        ));
+        if ($page && ($page->post_status !== 'publish' || $page->post_title !== $title)) {
+            wp_update_post(array('ID' => $page->ID, 'post_status' => 'publish', 'post_title' => $title));
+        }
+        if ($slug === 'privacy-policy' && is_numeric($id) && $id) {
+            update_option('wp_page_for_privacy_policy', $id);
+        }
+    }
+}
+
+/** The theme was activated on hosting before the legal pages existed: publish them once. */
+function ats_site_ensure_legal_pages() {
+    if (get_option('ats_site_legal_pages') === '1' || !current_user_can('manage_options')) return;
+    ats_site_publish_legal_pages();
+    update_option('ats_site_legal_pages', '1');
+}
+add_action('admin_init', 'ats_site_ensure_legal_pages');
 
 function ats_site_old_hash_redirect() {
     if (!is_front_page()) return;

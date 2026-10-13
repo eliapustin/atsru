@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..');
 const output = path.join(__dirname, 'ats-site', 'content');
 fs.mkdirSync(output, { recursive: true });
 const context = vm.createContext({});
-for (const file of ['data.js', 'components.js', 'pages.js']) {
+for (const file of ['data.js', 'components.js', 'pages.js', 'legal.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, 'assets', 'js', file), 'utf8'), context, { filename: file });
 }
 
@@ -20,6 +20,8 @@ const pages = {
   about: 'about()',
   contacts: 'contacts()',
   equipment: 'equipment()',
+  'privacy-policy': 'privacyPolicy()',
+  'personal-data-consent': 'personalDataConsent()',
 };
 const products = vm.runInContext('products.map(p => p.id)', context);
 for (const product of products) pages[`product-${product}`] = `productPage(products.find(p => p.id === '${product}'))`;
@@ -39,5 +41,5 @@ for (const [name, expression] of Object.entries(pages)) {
 const shell = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const modal = shell.match(/<div class="modal-backdrop" id="form-modal"[\s\S]*?<\/form>\s*<\/div>\s*<\/div>/);
 if (!modal) throw new Error('The contact form modal was not found in index.html');
-fs.writeFileSync(path.join(output, 'form-modal.html'), modal[0] + '\n');
+fs.writeFileSync(path.join(output, 'form-modal.html'), convert(modal[0]) + '\n');
 console.log(`Generated ${Object.keys(pages).length} WordPress page fragments.`);

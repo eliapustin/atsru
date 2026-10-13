@@ -24,11 +24,15 @@
     <a href="mailto:aviatechnosoft@yandex.ru">aviatechnosoft@yandex.ru</a>
     <button class="text-button" type="button" data-form="f1" data-cta="Получить консультацию">Обсудить проект</button>
   </div>
-</div><div class="container footer-bottom"><span>© <?php echo esc_html(wp_date('Y')); ?> ООО «АвиаТехноСофт»</span><span>Макет сайта · реквизиты и юридические документы уточняются</span></div></footer>
+</div><div class="container footer-bottom"><span>© <?php echo esc_html(wp_date('Y')); ?> ООО «АвиаТехноСофт»</span><span><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Политика обработки персональных данных</a> · <a href="<?php echo esc_url(home_url('/personal-data-consent/')); ?>">Согласие на обработку персональных данных</a></span></div></footer>
 <?php
 $modal = file_get_contents(get_template_directory() . '/content/form-modal.html');
 if ($modal !== false) {
-    echo str_replace('action="api/lead.php"', 'action="' . esc_url(get_template_directory_uri() . '/api/lead.php') . '"', $modal); // Bundled form HTML.
+    echo str_replace(
+        array('action="api/lead.php"', '{{ATS_HOME}}'),
+        array('action="' . esc_url(get_template_directory_uri() . '/api/lead.php') . '"', esc_url(home_url('/'))),
+        $modal
+    ); // Bundled form HTML.
 }
 wp_footer();
 ?>

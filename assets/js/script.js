@@ -20,6 +20,8 @@ const routes = {
   '/about': about,
   '/contacts': contacts,
   '/equipment': equipment,
+  '/privacy-policy': privacyPolicy,
+  '/personal-data-consent': personalDataConsent,
 };
 function render() {
   const path = decodeURIComponent(location.hash.slice(1) || '/');

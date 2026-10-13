@@ -1088,6 +1088,27 @@ p {
 .consent input {
   margin-top: 3px;
 }
+.submit-btn + .consent {
+  margin-top: 12px;
+}
+.consent a,
+.footer-bottom a {
+  color: inherit;
+  text-decoration: underline;
+}
+.legal-text {
+  max-width: 860px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.legal-text h2 {
+  font-size: 22px;
+  margin: 1.6em 0 0.6em;
+}
+.legal-text p,
+.legal-text li {
+  margin: 0 0 0.9em;
+}
 .muted {
   color: var(--muted);
 }

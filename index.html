@@ -13,6 +13,7 @@
     <script src="assets/js/data.js" defer></script>
     <script src="assets/js/components.js" defer></script>
     <script src="assets/js/pages.js" defer></script>
+    <script src="assets/js/legal.js" defer></script>
     <script src="assets/js/forms.js" defer></script>
     <script src="assets/js/script.js" defer></script>
   </head>
@@ -100,7 +101,10 @@
       </div>
       <div class="container footer-bottom">
         <span>© 2026 ООО «АвиаТехноСофт»</span
-        ><span>Макет сайта · реквизиты и юридические документы уточняются</span>
+        ><span
+          ><a href="#/privacy-policy">Политика обработки персональных данных</a> ·
+          <a href="#/personal-data-consent">Согласие на обработку персональных данных</a></span
+        >
       </div>
     </footer>
     <div class="modal-backdrop" id="form-modal" hidden>
@@ -134,12 +138,19 @@
               placeholder="Расскажите о задаче"
             ></textarea></label
           ><div class="form-honeypot" aria-hidden="true"><label>Сайт<input name="website" tabindex="-1" autocomplete="off" /></label></div
-          ><label class="consent"
-            ><input type="checkbox" name="consent" value="1" required /><span
-              >Согласен на обработку персональных данных для ответа на запрос.
-              <span class="muted">Текст политики будет добавлен после согласования.</span></span
-            ></label
           ><button class="btn btn-primary submit-btn" type="submit">Отправить заявку</button>
+          <label class="consent"
+            ><input type="checkbox" name="consent" value="1" required /><span
+              >Нажимая кнопку «Отправить заявку», я даю ООО «АвиаТехноСофт» своё
+              <a href="#/personal-data-consent" target="_blank" rel="noopener"
+                >Согласие на обработку персональных данных</a
+              >
+              в соответствии с
+              <a href="#/privacy-policy" target="_blank" rel="noopener"
+                >Политикой обработки персональных данных</a
+              >.</span
+            ></label
+          >
           <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
           <p class="form-note">
             После отправки заявки мы свяжемся с вами по указанному контакту.

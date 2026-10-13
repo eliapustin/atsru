@@ -29,12 +29,19 @@
               placeholder="Расскажите о задаче"
             ></textarea></label
           ><div class="form-honeypot" aria-hidden="true"><label>Сайт<input name="website" tabindex="-1" autocomplete="off" /></label></div
-          ><label class="consent"
-            ><input type="checkbox" name="consent" value="1" required /><span
-              >Согласен на обработку персональных данных для ответа на запрос.
-              <span class="muted">Текст политики будет добавлен после согласования.</span></span
-            ></label
           ><button class="btn btn-primary submit-btn" type="submit">Отправить заявку</button>
+          <label class="consent"
+            ><input type="checkbox" name="consent" value="1" required /><span
+              >Нажимая кнопку «Отправить заявку», я даю ООО «АвиаТехноСофт» своё
+              <a href="{{ATS_HOME}}personal-data-consent/" target="_blank" rel="noopener"
+                >Согласие на обработку персональных данных</a
+              >
+              в соответствии с
+              <a href="{{ATS_HOME}}privacy-policy/" target="_blank" rel="noopener"
+                >Политикой обработки персональных данных</a
+              >.</span
+            ></label
+          >
           <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
           <p class="form-note">
             После отправки заявки мы свяжемся с вами по указанному контакту.
