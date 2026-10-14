@@ -13,7 +13,6 @@
   </div>
   <div><b>Информация</b>
     <a href="<?php echo esc_url(home_url('/education/')); ?>">Для образования</a>
-    <a href="<?php echo esc_url(home_url('/procurement/')); ?>">Как закупить</a>
     <a href="<?php echo esc_url(home_url('/documents/')); ?>">Документы</a>
     <a href="<?php echo esc_url(home_url('/news/')); ?>">Новости</a>
     <a href="<?php echo esc_url(home_url('/about/')); ?>">О компании</a>
